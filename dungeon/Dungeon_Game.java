@@ -1,41 +1,46 @@
 package dungeon;
-import java.util.Scanner;
+   import java.util.Scanner;
+   
+         public class Dungeon_Game_2 {
+	
+       public static void main(String[] args) {
 
-public class Dungeon_Game {
+	        Scanner sc = new Scanner(System.in);
 
-	public static void main(String[] args) {
-		
-    Scanner sc = new Scanner(System.in);
+	        System.out.println("Enter The Row And Column :  ");
+	        int row = sc.nextInt();
+	        int col = sc.nextInt();
 
-        // Input for dungeon dimensions
-        System.out.println("Enter The Row And Column :  ");
-        int row = sc.nextInt();
-        int col = sc.nextInt();
+	        System.out.println("Enter The Adventure Row And Column : ");
+	        int advR = sc.nextInt();
+	        int advC = sc.nextInt();
 
-        // Input for adventure's initial position
-        System.out.println("Enter The Adventure Row And Column : ");
-        int advR = sc.nextInt();
-        int advC = sc.nextInt();
+	        System.out.println("Enter The Gold Row and Column : ");
+	        int goldR = sc.nextInt();
+	        int goldC = sc.nextInt();
 
-        // Input for gold's position
-        System.out.println("Enter The Gold Row and Column : ");
-        int goldR = sc.nextInt();
-        int goldC = sc.nextInt();
+	        System.out.println("Enter The Monster Row and Column : ");
+	        int monsterR = sc.nextInt();
+	        int monsterC = sc.nextInt();
 
-        // Calculate and display the minimum number of steps
-        int steps = getAdvMinSteps(row, col, advR, advC, goldR, goldC);
-        System.out.println("Minimum number of steps: " + steps);
-    }
+	        int steps = getMinMoves(row, col, advR, advC, goldR, goldC, monsterR, monsterC);
+	        System.out.println("Minimum number of moves for the adventurer to reach gold without being caught by the monster: " + steps);
+	    }
 
-    // Function to calculate the minimum steps for the adventure to reach the gold
-    private static int getAdvMinSteps(int row, int col, int advR, int advC, int goldR, int goldC) {
+	    private static int getMinMoves(int row, int col, int advR, int advC, int goldR, int goldC, int monsterR, int monsterC) {
+	         int advMoves = Math.abs(advR - goldR) + Math.abs(advC - goldC);
+	        int monsterMoves = Math.abs(monsterR - goldR) + Math.abs(monsterC - goldC);
 
-        // Calculate the minimum steps using Math.max
-        return (Math.abs(advR - goldR)+ Math.abs(advC - goldC));
-    }
-
-
-
+	        
+	        if (advMoves <= monsterMoves) {
+	            return advMoves;
+	        } else {
+	            return -1;
+	        }
+	    }
 	}
+
+
+
 
 
