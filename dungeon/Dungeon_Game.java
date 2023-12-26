@@ -1,7 +1,7 @@
 package dungeon;
 import java.util.Scanner;
 
-public class Dungeon_Game_3 {
+public class Dungeon_Game_4 {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -22,59 +22,35 @@ public class Dungeon_Game_3 {
         int monsterR = sc.nextInt();
         int monsterC = sc.nextInt();
 
-        // Create a StringBuilder to store the adventurer's path
-        StringBuilder path = new StringBuilder();
+        System.out.println("Enter The Trigger Row and Column : ");
+        int triggerR = sc.nextInt();
+        int triggerC = sc.nextInt();
 
-        int steps = getMinMoves(row, col, advR, advC, goldR, goldC, monsterR, monsterC, path);
+        int steps = getMinMovesWithTriggers(row, col, advR, advC, goldR, goldC, monsterR, monsterC, triggerR, triggerC);
 
-        // Check if a solution exists before printing the path
+        
         if (steps != -1) {
             System.out.println("Minimum number of steps: " + steps);
-            System.out.println("Path: " + path.toString());
         } else {
             System.out.println("No solution exists.");
         }
     }
 
-    private static int getMinMoves(int row, int col, int advR, int advC, int goldR, int goldC, int monsterR, int monsterC, StringBuilder path) {
-        int advMoves = Math.abs(advR - goldR) + Math.abs(advC - goldC);
-        int monsterMoves = Math.abs(monsterR - goldR) + Math.abs(monsterC - goldC);
+    private static int getMinMovesWithTriggers(int row, int col, int advR, int advC, int goldR, int goldC,
+                                               int monsterR, int monsterC, int triggerR, int triggerC) {
+        
+        int advToGold = Math.abs(advR - goldR) + Math.abs(advC - goldC);
+        int advToTrigger = Math.abs(advR - triggerR) + Math.abs(advC - triggerC);
+        int monsterToGold = Math.abs(monsterR - goldR) + Math.abs(monsterC - goldC);
+        int monsterToTrigger = Math.abs(monsterR - triggerR) + Math.abs(monsterC - triggerC);
 
-        // Initialize variables to track adventurer's position
-        int currentR = advR;
-        int currentC = advC;
-
-        // Check if the adventurer can reach the gold before the monster
-        if (advMoves <= monsterMoves) {
-            // Update the path for each step
-            while (currentR != goldR || currentC != goldC) {
-                path.append("(" + currentR + "," + currentC + ")->");
-
-                // Move towards the gold
-                if (currentC < goldC) {
-                    currentC++;
-                } else if (currentC > goldC) {
-                    currentC--;
-                } else if (currentR < goldR) {
-                    currentR++;
-                } else {
-                    currentR--;
-                }
-            }
-
-            // Append the last position to the path
-            path.append("(" + currentR + "," + currentC + ")");
-
-            return advMoves;
+        
+        if (advToGold >monsterToGold) {
+            
+            return Math.abs(advToTrigger + monsterToGold);
         } else {
-            return -1;
+            
+            return advToGold;
         }
     }
 }
-
-
-
-
-
-
-
